@@ -1,27 +1,24 @@
-const express = require('express');
+const express = require('express')
 const app = express();
-const PORT = 3000;
+const PORT = 3000
+app.use(express.json())
 
-app.get('/signup', (req,res)=> {
-    const {username,password,email,dob} = req.query;
+app.post('/signup', (req,res) => {
+    const{username, email, password, dob} = req.body
 
-    if(username){
-        if(username === " "){
-            return res.send("Username cannot be empty.");
-        }
+    if(!email || email.trim() === ""){
+        return res.status(400).json({ error: "Email cannot be empty"})
     }
-    if(email){
-        if(email === " "){
-            return res.send("Email cannot be empty.");
-        }
+    if(!username || username.trim() === ""){
+        return res.status(400).json({ error: "Username cannot be empty"})
     }
-    if(password){
-        if(password.length < 8 || password.length > 16){
-            return res.send("Password length should be greater than 8 or less than or equal to 16.");
-        }
+    if(!password || password.length < 8 || password.length > 16){
+        return res.status(400).json({ error: "Password length should be greater than 8 or less than or equal to 16"})
     }
-
+    if(!dob){
+        return res.status(400).json({ error: "Date of birth is required"})
+        
+    }
+    res.status(200).json({message: "Signup Successful"})
 })
-
-
-app.listen(PORT, () => console.log(`server is started at port:${PORT}`));
+app.listen(PORT, ()=> console.log(`server is running on port${PORT}`))
