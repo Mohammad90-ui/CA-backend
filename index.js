@@ -3,6 +3,10 @@ const app = express();
 const PORT = 3000
 app.use(express.json())
 
+app.get('/', (req, res) => {
+    res.send('Welcome to the Signup API. Use POST /signup to register.');
+  });
+  
 app.post('/signup', (req,res) => {
     const{username, email, password, dob} = req.body
 
